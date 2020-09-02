@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width-device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="main.css">
-
+ 	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<6e796575-7aef-4cf0-a227-ad4b55370a59>" type="text/javascript"></script>
 	<title>Carer</title>
 </head>
 <body>
@@ -362,7 +362,7 @@
 
 	<section class="section">
 		<div class="container">
-			<div class="map">
+			<div class="map" id="map">
 			</div>
 		</div>
 	</section>
@@ -419,7 +419,40 @@
 
 	<script type="module" src='./main.js'></script>
 
+	<script type="text/javascript">
+		ymaps.ready(function () {
+    var myMap = new ymaps.Map('map', {
+            center: [55.755214, 37.572856],
+            zoom: 15
+        }, {
+            searchControlProvider: 'yandex#search'
+        }),
 
+        // Создаём макет содержимого.
+        MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+            '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+        ),
+
+        myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
+            hintContent: 'Собственный значок метки',
+            balloonContent: 'Это красивая метка'
+        }, {
+            // Опции.
+            // Необходимо указать данный тип макета.
+            iconLayout: 'default#image',
+            // Своё изображение иконки метки.
+            iconImageHref: 'images/main/map/map_pin.png',
+            // Размеры метки.
+            iconImageSize: [60, 60],
+            // Смещение левого верхнего угла иконки относительно
+            // её "ножки" (точки привязки).
+            iconImageOffset: [-5, -38]
+        });
+
+    myMap.geoObjects
+        .add(myPlacemark);
+});
+	</script>
 
 </body>
 </html>
